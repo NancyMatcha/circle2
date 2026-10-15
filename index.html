@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>圆的周长 · 六年级数学互动实验</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%23E0603C' stroke-width='6'/%3E%3Cline x1='32' y1='32' x2='32' y2='6' stroke='%232E6FD8' stroke-width='6'/%3E%3Ctext x='32' y='46' font-size='22' font-family='Georgia,serif' font-style='italic' text-anchor='middle' fill='%23C98A1B'%3E%CF%80%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap">
+<style>
+:root{
+  --paper:#F5EFE3;
+  --panel:#FFFCF5;
+  --ink:#24303C;
+  --ink-2:#5A6B78;
+  --line:#E0D5C0;
+  --line-2:#C9BCA2;
+  --coral:#E0603C;
+  --coral-d:#B84522;
+  --blue:#2E6FD8;
+  --green:#1E8E5A;
+  --gold:#C98A1B;
+  --shadow:0 2px 10px rgba(36,48,60,.08);
+  --radius:14px;
+  --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(224,96,60,.06), transparent 32%),
+    radial-gradient(circle at 88% 22%, rgba(46,111,216,.06), transparent 30%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+button{font-family:inherit;cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+
+/* ===== 顶栏 ===== */
+.site-header{
+  border-bottom:1px solid var(--line);
+  background:rgba(255,252,245,.86);
+  backdrop-filter:blur(6px);
+  position:sticky;top:0;z-index:20;
+}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding:12px 18px;max-width:1180px;margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-badge{
+  width:46px;height:46px;flex:none;
+  background:var(--panel);border:1.5px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;
+  box-shadow:var(--shadow);
+}
+.brand-badge svg{width:28px;height:28px}
+.brand h1{font-size:19px;font-weight:900;letter-spacing:.5px;line-height:1.3}
+.brand p{font-size:12px;color:var(--ink-2)}
+.header-stat{
+  display:flex;gap:10px;flex:none;
+}
+.stat-chip{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:999px;padding:7px 13px;font-size:12.5px;
+  display:flex;align-items:center;gap:7px;color:var(--ink-2);
+}
+.stat-chip b{color:var(--ink);font-size:14px}
+.stat-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.stat-chip .dot.blue{background:var(--blue)}
+.stat-chip .dot.gold{background:var(--gold)}
+
+/* ===== 章节通用 ===== */
+.section{padding:26px 0 8px}
+.sec-head{margin-bottom:14px}
+.sec-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;color:var(--coral-d);
+  letter-spacing:2px;text-transform:uppercase;
+}
+.sec-kicker::before{content:"";width:22px;height:3px;background:var(--coral);border-radius:2px}
+.sec-head h2{font-size:21px;font-weight:900;margin-top:4px;letter-spacing:.5px}
+.sec-head .sub{color:var(--ink-2);font-size:14px;margin-top:2px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+/* ===== 实验台 ===== */
+.experiment-grid{
+  display:grid;gap:16px;
+}
+@media (min-width:900px){
+  .experiment-grid{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+}
+.canvas-card{padding:14px 14px 10px;position:relative}
+.canvas-top{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:8px;
+}
+.method-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  background:#F1E8D6;border:1px solid var(--line);
+  border-radius:999px;padding:5px 12px;
+}
+.method-tag svg{width:14px;height:14px;flex:none}
+.canvas-wrap{
+  position:relative;width:100%;
+  background:
+    linear-gradient(rgba(201,188,162,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,188,162,.22) 1px, transparent 1px),
+    #FBF7EE;
+  background-size:24px 24px;
+  border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;
+}
+.canvas-wrap canvas{display:block;width:100%;height:auto}
+.cv-status{
+  min-height:22px;margin-top:8px;font-size:13px;color:var(--ink-2);
+  display:flex;align-items:center;gap:8px;
+}
+.cv-status .spin{
+  width:13px;height:13px;border-radius:50%;
+  border:2px solid var(--line-2);border-top-color:var(--coral);
+  animation:rot .8s linear infinite;display:none;
+}
+.cv-status.busy .spin{display:block}
+@keyframes rot{to{transform:rotate(360deg)}}
+.readout{
+  display:none;align-items:center;gap:8px;margin-top:10px;
+  background:#F1E8D6;border:1px dashed var(--line-2);
+  border-radius:10px;padding:8px 12px;font-size:14px;
+}
+.readout.show{display:flex;flex-wrap:wrap}
+.readout b{color:var(--coral-d)}
+.readout .ratio b{color:var(--green)}
+.readout .sep{color:var(--line-2)}
+
+/* ===== 控制面板 ===== */
+.control-card{padding:16px}
+.control-card h3{font-size:15px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.control-card h3::before{content:"";width:8px;height:16px;background:var(--blue);border-radius:3px}
+.method-switch{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:14px;
+}
+.method-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:11px 6px;border-radius:10px;border:1.5px solid var(--line);
+  background:#FBF7EE;font-size:14px;font-weight:700;color:var(--ink-2);
+  transition:border-color .15s,background .15s,color .15s,transform .1s;
+  min-height:46px;
+}
+.method-btn svg{width:17px;height:17px;flex:none}
+.method-btn:active{transform:scale(.97)}
+.method-btn.active{
+  border-color:var(--coral);background:#FCE8DF;color:var(--coral-d);
+}
+.param-block{margin-bottom:14px}
+.param-block label{
+  display:flex;align-items:baseline;justify-content:space-between;
+  font-size:13.5px;color:var(--ink-2);margin-bottom:4px;
+}
+.param-block label .val{
+  font-size:17px;font-weight:900;color:var(--blue);font-variant-numeric:tabular-nums;
+}
+.param-block label .val small{font-size:12px;font-weight:500;color:var(--ink-2)}
+input[type="range"]{
+  width:100%;height:32px;accent-color:var(--blue);cursor:pointer;
+}
+.range-hint{
+  display:flex;justify-content:space-between;font-size:11.5px;color:var(--line-2);
+  margin-top:-4px;
+}
+.actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:12px}
+.btn{
+  border:none;border-radius:10px;font-weight:700;
+  transition:filter .15s,transform .1s,background .15s;
+  min-height:46px;padding:0 18px;font-size:14.5px;
+}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-primary{
+  background:var(--coral);color:#fff;
+}
+.btn-primary:not(:disabled):hover{filter:brightness(1.06)}
+.btn-primary.ready{background:var(--green)}
+.btn-ghost{
+  background:transparent;color:var(--ink-2);
+  border:1.5px solid var(--line);font-weight:600;
+}
+.btn-ghost:hover{border-color:var(--line-2);color:var(--ink)}
+.guide{
+  background:#F1E8D6;border-radius:10px;padding:10px 12px;
+  font-size:12.5px;color:var(--ink-2);
+}
+.guide ol{list-style:none;counter-reset:step;display:grid;gap:4px}
+.guide li{counter-increment:step;display:flex;gap:8px;align-items:baseline}
+.guide li::before{
+  content:counter(step);
+  width:18px;height:18px;flex:none;border-radius:50%;
+  background:var(--ink);color:#fff;font-size:11px;font-weight:700;
+  display:grid;place-items:center;transform:translateY(3px);
+}
+.guide li b{color:var(--ink);font-weight:700}
+
+/* ===== 数据记录表 ===== */
+.table-card{padding:16px 14px}
+.table-card .toolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:10px;
+}
+.table-card .toolbar .note{font-size:12.5px;color:var(--ink-2)}
+.table-scroll{overflow-x:auto}
+table.data{
+  width:100%;table-layout:fixed;border-collapse:collapse;
+  font-size:13.5px;
+}
+table.data col.c1{width:13%}
+table.data col.c2{width:21%}
+table.data col.c3{width:20%}
+table.data col.c4{width:21%}
+table.data col.c5{width:25%}
+table.data th{
+  background:#EFE6D2;color:var(--ink);
+  padding:9px 6px;text-align:center;font-weight:700;font-size:12.5px;
+  border-bottom:2px solid var(--line-2);
+}
+table.data td{
+  padding:9px 6px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;
+}
+table.data tr:last-child td{border-bottom:none}
+table.data tr.new-row td{background:#F2F9F1;color:var(--green);font-weight:700}
+table.data .ratio-cell b{color:var(--green)}
+.empty-row td{color:var(--line-2);font-size:13px;padding:18px 6px}
+.table-foot{
+  margin-top:10px;font-size:12.5px;color:var(--ink-2);
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+.table-foot .tag{
+  background:#FCE8DF;color:var(--coral-d);border-radius:999px;padding:3px 10px;
+  font-weight:700;font-size:12px;
+}
+
+/* ===== 图表区 ===== */
+.charts-grid{display:grid;gap:16px}
+@media (min-width:900px){.charts-grid{grid-template-columns:1fr 1fr}}
+.chart-card{padding:14px 12px 10px}
+.chart-card h3{
+  font-size:14.5px;font-weight:900;margin:0 4px 2px;display:flex;align-items:center;gap:8px;
+}
+.chart-card h3 svg{width:16px;height:16px;flex:none}
+.chart-card .cap{font-size:12px;color:var(--ink-2);margin:0 4px 8px}
+.chart-box{position:relative;width:100%;height:280px}
+.chart-box .empty-mask{
+  position:absolute;inset:0;display:grid;place-items:center;
+  text-align:center;font-size:13px;color:var(--ink-2);
+  background:rgba(251,247,238,.7);pointer-events:none;z-index:5;
+  padding:0 16px;border-radius:8px;
+}
+.chart-box.has-data .empty-mask{display:none}
+
+/* ===== π 发现区 ===== */
+.discover-grid{display:grid;gap:16px}
+@media (min-width:900px){.discover-grid{grid-template-columns:1.2fr 1fr}}
+.pi-card{padding:18px 16px;overflow:hidden;position:relative}
+.pi-card::after{
+  content:"π";position:absolute;right:-8px;bottom:-34px;
+  font-family:var(--serif);font-style:italic;font-size:150px;font-weight:900;
+  color:rgba(201,138,27,.09);line-height:1;pointer-events:none;
+}
+.pi-big{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin:6px 0 4px;
+}
+.pi-symbol{
+  font-family:var(--serif);font-style:italic;font-size:52px;font-weight:900;
+  color:var(--gold);line-height:1;
+}
+.pi-value{
+  font-family:var(--serif);font-size:40px;font-weight:900;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:1px;
+}
+.pi-value small{font-size:16px;color:var(--ink-2);font-weight:500}
+.pi-note{font-size:13.5px;color:var(--ink-2);max-width:46ch}
+.pi-note b{color:var(--coral-d)}
+.pi-progress{margin-top:12px}
+.pi-progress .bar{
+  height:10px;border-radius:6px;background:#EFE6D2;overflow:hidden;
+}
+.pi-progress .bar i{
+  display:block;height:100%;width:0%;border-radius:6px;
+  background:linear-gradient(90deg,var(--gold),var(--coral));
+  transition:width .5s ease;
+}
+.pi-progress .lab{
+  display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-2);
+  margin-top:4px;
+}
+.zu-card{padding:18px 16px;display:flex;flex-direction:column;justify-content:center}
+.zu-card h3{font-size:16px;font-weight:900;display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.zu-card h3 svg{width:20px;height:20px;flex:none;color:var(--coral)}
+.zu-card p{font-size:13.5px;color:var(--ink-2)}
+.zu-card .fracs{
+  display:flex;gap:16px;margin:10px 0 2px;
+}
+.frac{
+  background:#FBF7EE;border:1px solid var(--line);
+  border-radius:10px;padding:8px 14px;text-align:center;
+}
+.frac .f{
+  font-family:var(--serif);font-size:17px;font-weight:900;color:var(--gold);
+  font-variant-numeric:tabular-nums;
+}
+.frac .t{font-size:11px;color:var(--ink-2);margin-top:2px}
+
+/* ===== 公式区 ===== */
+.formula-section .cards{display:grid;gap:14px}
+@media (min-width:900px){.formula-section .cards{grid-template-columns:repeat(3,1fr)}}
+.formula-card{padding:16px;position:relative}
+.formula-card .f-no{
+  position:absolute;top:10px;right:12px;
+  font-size:11px;font-weight:700;color:var(--line-2);letter-spacing:1px;
+}
+.formula-card h3{font-size:14px;font-weight:900;margin-bottom:8px;color:var(--ink)}
+.formula-card .f-exp{
+  font-family:var(--serif);font-size:24px;font-weight:900;color:var(--ink);
+  margin-bottom:8px;letter-spacing:1px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.formula-card .f-exp .v{font-style:italic}
+.formula-card .f-exp .op{color:var(--coral-d)}
+.formula-card .f-exp .eq{color:var(--blue)}
+.formula-card p{font-size:13px;color:var(--ink-2)}
+.formula-card i.v{font-style:italic}
+.formula-card .accent{color:var(--gold);font-weight:700}
+.derivation{
+  margin-top:14px;background:#FBF7EE;border:1px solid var(--line);
+  border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--ink-2);
+  display:grid;gap:4px;
+}
+.derivation .step{display:flex;gap:10px;align-items:baseline}
+.derivation .step b{color:var(--coral-d);font-variant-numeric:tabular-nums}
+.derivation .form{
+  font-family:var(--serif);font-weight:900;font-size:16px;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.derivation .form .v{font-style:italic}
+
+/* ===== 试一试 ===== */
+.try-card{padding:18px 16px}
+.try-inner{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.try-q{
+  font-size:15px;background:#F1E8D6;border-radius:10px;padding:12px 16px;flex:1 1 240px;
+}
+.try-q b{font-size:17px;color:var(--blue);font-variant-numeric:tabular-nums}
+.try-q .form{
+  font-family:var(--serif);font-weight:900;color:var(--ink);
+}
+.try-inputs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.try-inputs input[type="number"]{
+  width:110px;min-height:46px;border:1.5px solid var(--line-2);border-radius:10px;
+  padding:0 12px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.try-inputs input[type="number"]:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+.try-inputs .unit{color:var(--ink-2);font-size:13px}
+.try-result{flex:1 1 100%;font-size:13.5px;min-height:24px}
+.try-result.ok{color:var(--green);font-weight:700}
+.try-result.no{color:var(--coral-d);font-weight:700}
+
+/* ===== 页脚 ===== */
+.site-footer{
+  margin-top:30px;border-top:1px solid var(--line);
+  padding:16px 0 26px;font-size:12px;color:var(--ink-2);text-align:center;
+}
+
+/* ===== 通用焦点 & 无障碍 ===== */
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+}
+@media (max-width:420px){
+  .brand h1{font-size:17px}
+  .stat-chip{padding:6px 9px;font-size:11.5px}
+  .pi-value{font-size:32px}
+  .chart-box{height:250px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 顶栏 ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="12" stroke="#E0603C" stroke-width="2.6"/>
+          <line x1="16" y1="16" x2="16" y2="4" stroke="#2E6FD8" stroke-width="2.6"/>
+          <text x="16" y="22" font-size="10" font-family="Georgia,serif" font-style="italic" text-anchor="middle" fill="#C98A1B">π</text>
+        </svg>
+      </div>
+      <div>
+        <h1>圆的周长</h1>
+        <p>人教版六年级上册 · 第五单元《圆》 · 探究活动</p>
+      </div>
+    </div>
+    <div class="header-stat" aria-label="实验统计">
+      <div class="stat-chip"><span class="dot"></span>已测 <b class="num" id="statCount">0</b> 组</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== 实验台 ===== -->
+  <section class="section" id="lab">
+    <div class="sec-head">
+      <div class="sec-kicker">实验探究</div>
+      <h2>动手测量：圆的周长与直径</h2>
+      <div class="sub">周长是围成圆的曲线的长度。怎样量一条弯弯曲曲的曲线？试试下面的两种方法。</div>
+    </div>
+    <div class="experiment-grid">
+      <div class="panel canvas-card">
+        <div class="canvas-top">
+          <span class="method-tag" id="methodTag">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 14-5.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="12" r="2.4" fill="currentColor"/><path d="M18 6.7V4M18 6.7V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span id="methodTagText">滚圆法</span>
+          </span>
+          <span class="cv-hint" id="cvHint" style="font-size:12px;color:var(--ink-2)">直径 d = 4 cm</span>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="labCanvas" width="760" height="340" aria-label="圆的周长测量实验动画画布"></canvas>
+        </div>
+        <div class="cv-status" id="cvStatus"><span class="spin" aria-hidden="true"></span><span id="cvStatusText">选择测量方法，调整直径，点击「开始测量」。</span></div>
+        <div class="readout" id="readout" role="status">
+          <span>测量完成：周长 <b class="num" id="roC">—</b></span>
+          <span class="sep">·</span>
+          <span>直径 <b class="num" id="roD">—</b></span>
+          <span class="sep">·</span>
+          <span class="ratio">比值 C ÷ d = <b class="num" id="roRatio">—</b></span>
+        </div>
+      </div>
+
+      <div class="panel control-card">
+        <h3>实验设置</h3>
+        <div class="method-switch" role="tablist" aria-label="测量方法">
+          <button class="method-btn active" id="btnRoll" role="tab" aria-selected="true" aria-controls="labCanvas">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="10" cy="12" r="6.5" stroke="currentColor" stroke-width="2"/><path d="M10 8.5v3.5l2.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 22h18M3 21.5v-8h18v8" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            滚圆法
+          </button>
+          <button class="method-btn" id="btnWrap" role="tab" aria-selected="false" aria-controls="labCanvas">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M5 8c2.5 1.5 5 1.5 7 0s4.5-1.5 7 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 22h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            绕绳法
+          </button>
+        </div>
+        <div class="param-block">
+          <label for="diaRange">
+            <span>圆的直径 d</span>
+            <span class="val"><span class="num" id="diaVal">4</span> <small>cm</small></span>
+          </label>
+          <input type="range" id="diaRange" min="2" max="8" step="1" value="4" aria-label="圆的直径（厘米）">
+          <div class="range-hint"><span>2 cm</span><span>8 cm</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btnMeasure">开始测量</button>
+          <button class="btn btn-ghost" id="btnReset">重置</button>
+        </div>
+        <div class="guide" aria-label="实验步骤">
+          <ol>
+            <li><span>选择 <b>测量方法</b>（滚圆法 / 绕绳法）</span></li>
+            <li><span>拖动滑块选择 <b>直径</b></span></li>
+            <li><span>点击 <b>开始测量</b>，观察测量过程</span></li>
+            <li><span>把结果 <b>记录到表格</b>，比较各组比值</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 数据记录表 ===== -->
+  <section class="section" id="table">
+    <div class="sec-head">
+      <div class="sec-kicker">实验记录单</div>
+      <h2>周长与直径的数据</h2>
+      <div class="sub">换几个不同直径的圆再测一测，把数据填进记录单，观察每一组的比值 C ÷ d。</div>
+    </div>
+    <div class="panel table-card">
+      <div class="toolbar">
+        <div class="note">自动记录每一次测量的结果（含读数误差，模拟真实测量）</div>
+        <button class="btn btn-ghost" id="btnClear" style="min-height:36px;padding:0 14px;font-size:13px">清空</button>
+      </div>
+      <div class="table-scroll">
+        <table class="data" id="dataTable" aria-label="实验数据记录表">
+          <colgroup>
+            <col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">组别</th>
+              <th scope="col">测量方法</th>
+              <th scope="col">直径 d (cm)</th>
+              <th scope="col">周长 C (cm)</th>
+              <th scope="col">比值 C ÷ d</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="empty-row"><td colspan="5">还没有数据。完成一次测量后点击「记录数据」。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-foot" id="tableFoot"></div>
+    </div>
+  </section>
+
+  <!-- ===== 图表分析 ===== -->
+  <section class="section" id="charts">
+    <div class="sec-head">
+      <div class="sec-kicker">数据观察</div>
+      <h2>从数据中发现规律</h2>
+      <div class="sub">左边看周长与直径是否成正比；右边看每组比值是否稳定。</div>
+    </div>
+    <div class="charts-grid">
+      <div class="panel chart-card">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="7" cy="15" r="2.4" stroke="#2E6FD8" stroke-width="2"/><circle cx="13" cy="10" r="2.4" stroke="#2E6FD8" stroke-width="2"/><circle cx="18" cy="6" r="2.4" stroke="#2E6FD8" stroke-width="2"/><path d="M3 21h18M4 3v18" stroke="#5A6B78" stroke-width="1.4"/></svg>
+          周长 — 直径 散点图
+        </h3>
+        <div class="cap">每个点代表一次测量。虚线是 C = 3.14 × d 的参考线。</div>
+        <div class="chart-box" id="scatterBox">
+          <div class="empty-mask">完成 1 组测量后，数据点会出现在这里，并与虚线对比。</div>
+          <div id="scatterChart" style="width:100%;height:100%"></div>
+        </div>
+      </div>
+      <div class="panel chart-card">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 19h18M4 3v16" stroke="#5A6B78" stroke-width="1.4"/><path d="M5 12h4M12 9h4M19 13h4" stroke="#E0603C" stroke-width="2" stroke-linecap="round"/></svg>
+          每组比值 C ÷ d 的变化
+        </h3>
+        <div class="cap">红线是 π ≈ 3.14159 的参考位置。比值都在它附近波动。</div>
+        <div class="chart-box" id="ratioBox">
+          <div class="empty-mask">记录 2 组以上数据后，这里会显示每组比值的变化。</div>
+          <div id="ratioChart" style="width:100%;height:100%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== π 的发现 ===== -->
+  <section class="section" id="discover">
+    <div class="sec-head">
+      <div class="sec-kicker">重大发现</div>
+      <h2>圆周率 π 出现了</h2>
+      <div class="sub">无论圆的大小，周长除以直径的商是固定不变的数。</div>
+    </div>
+    <div class="discover-grid">
+      <div class="panel pi-card">
+        <div class="pi-big">
+          <span class="pi-symbol">π</span>
+          <span class="pi-value">3.1415926…</span>
+        </div>
+        <p class="pi-note">无论圆是大是小，<b>周长 ÷ 直径</b> 的结果总在 <b>3.14 左右</b>。这个固定不变的数叫作<b>圆周率</b>，用字母 <b>π</b> 表示：π ≈ 3.1415926535…，是无限不循环小数。实际计算时，一般取近似值 <b>π≈3.14</b>。</p>
+      </div>
+      <div class="panel zu-card">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          你知道吗？
+        </h3>
+        <p>南北朝时期，数学家<b>祖冲之</b>把圆周率精确到小数点后第 7 位（3.1415926 ～ 3.1415927），比欧洲早了约一千年。他还给出了两个近似分数：</p>
+        <div class="fracs">
+          <div class="frac"><div class="f">约率 22/7</div><div class="t">≈ 3.1429</div></div>
+          <div class="frac"><div class="f">密率 355/113</div><div class="t">≈ 3.1416</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 公式推导 ===== -->
+  <section class="section formula-section" id="formula">
+    <div class="sec-head">
+      <div class="sec-kicker">得出结论</div>
+      <h2>圆的周长公式</h2>
+      <div class="sub">比值稳定，说明周长与直径成正比例关系，比例系数就是 π。</div>
+    </div>
+    <div class="cards">
+      <div class="panel formula-card">
+        <span class="f-no">01</span>
+        <h3>周长 ÷ 直径 = π</h3>
+        <div class="f-exp"><span class="v">C</span><span class="op">÷</span><span class="v">d</span><span class="eq">=</span><span class="accent">π</span></div>
+        <p>任何圆，周长与直径的比值都等于圆周率 π，与圆的大小无关。</p>
+      </div>
+      <div class="panel formula-card">
+        <span class="f-no">02</span>
+        <h3>周长 = π × 直径</h3>
+        <div class="f-exp"><span class="v">C</span><span class="eq">=</span><span class="accent">π</span><span class="op">×</span><span class="v">d</span></div>
+        <p>已知直径求周长：<i class="v">C</i> = π<i class="v">d</i>，π 通常取 3.14。</p>
+      </div>
+      <div class="panel formula-card">
+        <span class="f-no">03</span>
+        <h3>周长 = 2 × π × 半径</h3>
+        <div class="f-exp"><span class="v">C</span><span class="eq">=</span><span class="accent">2</span><span class="op">×</span><span class="accent">π</span><span class="op">×</span><span class="v">r</span></div>
+        <p>直径是半径的 2 倍（<i class="v">d</i> = 2<i class="v">r</i>），所以：<i class="v">C</i> = 2π<i class="v">r</i>。</p>
+      </div>
+    </div>
+    <div class="derivation" aria-label="推导过程">
+      <div class="step"><span><b>①</b> 每组的比值都相等（约 3.14）</span></div>
+      <div class="step"><span><b>②</b> 周长 ÷ 直径 = 圆周率 π</span></div>
+      <div class="step"><span><b>③</b> 两边同乘直径：<span class="form">C = πd = 2πr</span></span></div>
+    </div>
+  </section>
+
+  <!-- ===== 试一试 ===== -->
+  <section class="section" id="try">
+    <div class="sec-head">
+      <div class="sec-kicker">应用练习</div>
+      <h2>试一试：用公式算周长</h2>
+      <div class="sub">系统随机给出一个圆的直径，用 C = πd（π 取 3.14）算出它的周长。</div>
+    </div>
+    <div class="panel try-card">
+      <div class="try-inner">
+        <div class="try-q">一个圆的直径 d = <b class="num" id="tryD">4</b> cm，它的周长 <span class="form">C = πd</span> 是多少？</div>
+        <div class="try-inputs">
+          <input type="number" id="tryInput" step="0.01" min="0" placeholder="?" aria-label="填入周长">
+          <span class="unit">cm</span>
+          <button class="btn btn-primary" id="btnTryCheck" style="min-height:46px">核对</button>
+          <button class="btn btn-ghost" id="btnTryNew">换一题</button>
+        </div>
+        <div class="try-result" id="tryResult" role="status"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">圆的周长 · 六年级数学互动实验 · 人教版六年级上册第五单元</div>
+</footer>
+
+<!-- ===== MAIN LOGIC : canvas & animation ===== -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script>window.echarts||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"><\/script>');</script>
+<script>
+"use strict";
+/* ================= 常量与工具 ================= */
+const PI_REF = Math.PI;
+const PX_PER_CM = 20;               // 画布比例：1cm = 20px
+const CANVAS_W = 760, CANVAS_H = 340;
+const RULER_X = 90, RULER_Y = 298, RULER_H = 22, RULER_LEN = 32; // 尺子（cm），0 刻度左侧留出圆的空间
+const NOISE = { roll: 0.16, wrap: 0.26 }; // 模拟读数误差范围 ±cm
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const easeInOutSine = p => -(Math.cos(Math.PI * p) - 1) / 2;
+
+const $ = id => document.getElementById(id);
+const canvas = $("labCanvas");
+const ctx = canvas.getContext("2d");
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+canvas.width = CANVAS_W * DPR;
+canvas.height = CANVAS_H * DPR;
+ctx.scale(DPR, DPR);
+
+/* ================= 状态 ================= */
+const S = {
+  method: "roll",            // roll | wrap
+  d: 4,                      // 直径 cm
+  phase: "idle",             // idle | rolling | wrapping | straightening | done
+  progress: 0,
+  result: null,              // {d, C, ratio}
+  recorded: false,
+  rows: [],                  // [{n, method, d, C, ratio}]
+  trail: []
+};
+const DUR = { rolling: 2600, wrapping: 2600, straightening: 2400 };
+
+let animId = null, animStart = 0;
+
+/* ================= 测量（模拟真实读数误差） ================= */
+function measure(d){
+  const range = NOISE[S.method];
+  const C = PI_REF * d + (Math.random() * 2 - 1) * range;
+  const C2 = Math.round(C * 100) / 100;
+  return { d, C: C2, ratio: Math.round(C2 / d * 100) / 100 };
+}
+
+/* ================= 绘制 ================= */
+function drawRuler(ctx){
+  const totalPx = RULER_LEN * PX_PER_CM;
+  ctx.fillStyle = "#F1E6CC";
+  ctx.fillRect(RULER_X, RULER_Y, totalPx, RULER_H);
+  ctx.strokeStyle = "#8A7B5F";
+  ctx.lineWidth = 1.4;
+  ctx.strokeRect(RULER_X, RULER_Y, totalPx, RULER_H);
+  ctx.textAlign = "center";
+  // 毫米刻度（1mm = 2px）：1mm 细线，5mm 中线，1cm 主线
+  const mmPerCm = 10;
+  for(let mm = 0; mm <= RULER_LEN * mmPerCm; mm++){
+    const x = RULER_X + mm * (PX_PER_CM / mmPerCm);
+    const isCm = mm % 10 === 0;
+    const is5mm = mm % 5 === 0;
+    if(isCm){
+      ctx.strokeStyle = "#5B4E37";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(x, RULER_Y);
+      ctx.lineTo(x, RULER_Y + 13);
+      ctx.stroke();
+    } else if(is5mm){
+      ctx.strokeStyle = "#6B5D45";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, RULER_Y);
+      ctx.lineTo(x, RULER_Y + 8);
+      ctx.stroke();
+    } else {
+      ctx.strokeStyle = "rgba(107,93,69,.5)";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(x, RULER_Y);
+      ctx.lineTo(x, RULER_Y + 4);
+      ctx.stroke();
+    }
+  }
+  // 数字：每 1cm 标一个（8px 小数字），每 5cm 加粗放大
+  for(let c = 0; c <= RULER_LEN; c++){
+    const x = RULER_X + c * PX_PER_CM;
+    if(c % 5 === 0){
+      ctx.fillStyle = "#5B4E37";
+      ctx.font = "bold 11px 'Noto Sans SC', sans-serif";
+      ctx.fillText(c, x, RULER_Y + 20);
+    } else {
+      ctx.fillStyle = "rgba(91,78,55,.85)";
+      ctx.font = "8px 'Noto Sans SC', sans-serif";
+      ctx.fillText(c, x, RULER_Y + 17);
+    }
+  }
+  ctx.fillStyle = "#E0603C";
+  ctx.font = "bold 11px 'Noto Sans SC', sans-serif";
+  ctx.fillText("0", RULER_X, RULER_Y + 20);
+}
+
+function drawCircleBase(ctx, cx, cy, r){
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = "#FBEDE4";
+  ctx.fill();
+  ctx.strokeStyle = "#E0603C";
+  ctx.lineWidth = 2.6;
+  ctx.stroke();
+}
+
+function markerPos(cx, cy, r, theta){
+  return { x: cx + r * Math.sin(theta), y: cy - r * Math.cos(theta) };
+}
+
+function drawMarker(ctx, m, r){
+  ctx.beginPath();
+  ctx.arc(m.x, m.y, 4.6, 0, Math.PI * 2);
+  ctx.fillStyle = "#E0603C";
+  ctx.fill();
+  ctx.lineWidth = 1.6;
+  ctx.strokeStyle = "#fff";
+  ctx.stroke();
+}
+
+function drawRadiusLine(ctx, cx, cy, r, m){
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(m.x, m.y);
+  ctx.strokeStyle = "rgba(224,96,60,.55)";
+  ctx.lineWidth = 1.4;
+  ctx.setLineDash([4, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawTag(ctx, ch, x, y, color){
+  ctx.beginPath();
+  ctx.arc(x, y, 7, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 9px 'Noto Sans SC', sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(ch, x, y + 0.5);
+  ctx.textBaseline = "alphabetic";
+}
+
+function markLine(ctx, x, color, dash){
+  ctx.beginPath();
+  ctx.moveTo(x, RULER_Y - 6);
+  ctx.lineTo(x, RULER_Y + RULER_H + 4);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.setLineDash(dash || []);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+/* ---- 滚圆法 ---- */
+function drawRoll(ctx){
+  const r = S.d / 2 * PX_PER_CM;
+  const cy = RULER_Y - r;
+  const startX = RULER_X;                    // 圆心起点：标记点（底部接触点）正好在 0 刻度
+  const L = (S.result ? S.result.C : PI_REF * S.d) * PX_PER_CM;
+  let cx = startX, theta = Math.PI;      // 标记点初始在圆底部，接触 0 刻度
+
+  if(S.phase === "rolling"){
+    const s = easeInOutSine(S.progress) * L;
+    theta = Math.PI + s / r;
+    cx = startX + s;
+    S.trail.push(markerPos(cx, cy, r, theta));
+    if(S.trail.length > 320) S.trail.shift();
+  } else if(S.phase === "done"){
+    theta = Math.PI + L / r;
+    cx = startX + L;
+  }
+  const m = markerPos(cx, cy, r, theta);
+
+  // 轨迹
+  for(const p of S.trail){
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(224,96,60,.32)";
+    ctx.fill();
+  }
+  // 起点线
+  markLine(ctx, RULER_X, "#2E6FD8", [4, 4]);
+  drawTag(ctx, "起", RULER_X - 16, RULER_Y + RULER_H / 2, "#2E6FD8");
+  // 终点线
+  if(S.phase === "done"){
+    markLine(ctx, cx, "#E0603C", [4, 4]);
+    drawTag(ctx, "终", cx + 16, RULER_Y + RULER_H / 2, "#E0603C");
+    // 周长标注
+    ctx.fillStyle = "#B84522";
+    ctx.font = "bold 12px 'Noto Sans SC', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("周长 C = " + S.result.C.toFixed(2) + " cm", (RULER_X + cx) / 2, RULER_Y - 10);
+  }
+  // 圆
+  drawCircleBase(ctx, cx, cy, r);
+  drawRadiusLine(ctx, cx, cy, r, m);
+  drawMarker(ctx, m, r);
+}
+
+/* ---- 绕绳法：圆固定在尺子 0 刻度上方 ---- */
+function drawWrap(ctx){
+  const r = S.d / 2 * PX_PER_CM;
+  const cx = RULER_X, cy = RULER_Y - r;  // 圆心固定在 0 刻度正上方，直观看到半径
+  const L = (S.result ? S.result.C : PI_REF * S.d) * PX_PER_CM;
+  const topX = cx, topY = cy - r;
+
+  // 直径标注
+  ctx.beginPath();
+  ctx.moveTo(cx - r, cy);
+  ctx.lineTo(cx + r, cy);
+  ctx.strokeStyle = "rgba(46,111,216,.7)";
+  ctx.lineWidth = 1.6;
+  ctx.setLineDash([6, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "#2E6FD8";
+  ctx.font = "bold 11px 'Noto Sans SC', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("d = " + S.d + " cm", cx, cy + 16);
+
+  drawCircleBase(ctx, cx, cy, r);
+
+  if(S.phase === "wrapping"){
+    const a = easeInOutSine(S.progress) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + a, false);
+    ctx.strokeStyle = "#E0603C";
+    ctx.lineWidth = 3.2;
+    ctx.lineCap = "round";
+    ctx.stroke();
+    const hx = cx + r * Math.sin(a), hy = cy - r * Math.cos(a);
+    ctx.beginPath();
+    ctx.arc(hx, hy, 4.6, 0, Math.PI * 2);
+    ctx.fillStyle = "#E0603C";
+    ctx.fill();
+    drawTag(ctx, "A", topX, topY - 12, "#2E6FD8");
+    if(S.progress > 0.98){
+      drawTag(ctx, "B", topX + 14, topY - 2, "#E0603C");
+    }
+  } else if(S.phase === "straightening" || S.phase === "done"){
+    const p = S.phase === "done" ? 1 : S.progress;
+    const pts = ropePoints(r, cx, cy, L, p);
+    // 绳子（环 → 展开 → 平放）
+    ctx.strokeStyle = "#E0603C";
+    ctx.lineWidth = 3.2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for(let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.stroke();
+    // 绳端标记 A / B
+    drawTag(ctx, "A", pts[0].x, pts[0].y, "#2E6FD8");
+    drawTag(ctx, "B", pts[pts.length - 1].x, pts[pts.length - 1].y, "#E0603C");
+    if(S.phase === "done"){
+      const sx = RULER_X;                // 绳子从 0 刻度开始测量
+      ctx.fillStyle = "#B84522";
+      ctx.font = "bold 12px 'Noto Sans SC', sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("周长 C = " + S.result.C.toFixed(2) + " cm", sx + L / 2, RULER_Y - 20);
+    }
+  }
+}
+
+/* 绕绳法：绳子形状随进度变化（取下 → 展开 → 平放）
+   绳长 L 全程不变；环状时圆心随进度移动，展开时由环插值成直线 */
+function ropePoints(r, cx, cy, L, p){
+  const N = 96;
+  const sx = RULER_X;                    // 平放后左端 x（0 刻度开始）
+  const yLine = RULER_Y;                 // 拉直后绳子贴在尺子刻度线上
+  const liftY = cy - 40;                // 取下后环中心 y
+  const midX = sx + L / 2;              // 平放后直线中点 x
+  let ex, ey, k;                        // 环中心、展开系数 0~1
+  if(p < 0.3){                          // ① 从圆上取下
+    const q = p / 0.3;
+    ex = cx;
+    ey = cy - (cy - liftY) * q;
+    k = 0;
+  } else if(p < 0.65){                  // ② 在空中展开
+    const q = (p - 0.3) / 0.35;
+    ex = cx + (midX - cx) * q;
+    ey = liftY + (yLine - 14 - liftY) * q;
+    k = q;
+  } else {                              // ③ 平放到尺上（贴合刻度线）
+    const q = (p - 0.65) / 0.35;
+    ex = midX;
+    ey = (yLine - 14) + 14 * q;
+    k = 1;
+  }
+  const pts = [];
+  for(let i = 0; i <= N; i++){
+    const u = i / N;
+    const ang = -Math.PI / 2 + u * Math.PI * 2;   // 环：从顶部顺时针绕一整圈
+    const rx = ex + r * Math.cos(ang);
+    const ry = ey + r * Math.sin(ang);
+    const lx = sx + L * u;              // 平放后的位置
+    const ly = ey;
+    pts.push({ x: rx + (lx - rx) * k, y: ry + (ly - ry) * k });
+  }
+  return pts;
+}
+
+function drawScene(){
+  ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+  drawRuler(ctx);
+  if(S.method === "roll") drawRoll(ctx);
+  else drawWrap(ctx);
+}
+
+/* ================= 动画引擎 ================= */
+function setStatus(text, busy){
+  $("cvStatusText").textContent = text;
+  $("cvStatus").classList.toggle("busy", !!busy);
+}
+
+function startAnim(phase){
+  S.phase = phase;
+  S.progress = 0;
+  animStart = performance.now();
+  cancelAnimationFrame(animId);
+  if(REDUCED){
+    S.progress = 1;
+    finishPhase(true);
+    drawScene();
+    return;
+  }
+  const loop = now => {
+    S.progress = Math.min(1, (now - animStart) / DUR[S.phase]);
+    drawScene();
+    if(S.progress < 1){
+      animId = requestAnimationFrame(loop);
+    } else {
+      finishPhase(false);
+    }
+  };
+  animId = requestAnimationFrame(loop);
+}
+
+function finishPhase(skip){
+  if(S.phase === "rolling"){
+    S.phase = "done";
+    S.recorded = false;
+    drawScene();
+    setStatus("测量完成！点击「记录数据」把结果存入实验记录单。");
+    showReadout(true);
+    $("btnMeasure").textContent = "记录数据";
+    $("btnMeasure").classList.add("ready");
+    syncControls();
+  } else if(S.phase === "wrapping"){
+    setStatus("把绳子从圆上取下，展开后放到尺子上量长度……", true);
+    startAnim("straightening");
+  } else if(S.phase === "straightening"){
+    S.phase = "done";
+    S.recorded = false;
+    drawScene();
+    setStatus("测量完成！点击「记录数据」把结果存入实验记录单。");
+    showReadout(true);
+    $("btnMeasure").textContent = "记录数据";
+    $("btnMeasure").classList.add("ready");
+    syncControls();
+  }
+}
+
+/* ================= 读数面板 ================= */
+function showReadout(show){
+  $("readout").classList.toggle("show", !!show);
+  if(show && S.result){
+    $("roC").textContent = S.result.C.toFixed(2);
+    $("roD").textContent = S.result.d;
+    $("roRatio").textContent = S.result.ratio.toFixed(2);
+  }
+}
+
+/* ================= 表格 ================= */
+function methodName(){ return S.method === "roll" ? "滚圆法" : "绕绳法"; }
+
+function renderTable(){
+  const tb = $("tableBody");
+  const rows = S.rows;
+  if(!rows.length){
+    tb.innerHTML = '<tr class="empty-row"><td colspan="5">还没有数据。完成一次测量后点击「记录数据」。</td></tr>';
+  } else {
+    tb.innerHTML = rows.map((r, i) =>
+      "<tr" + (i === rows.length - 1 ? ' class="new-row"' : "") + ">" +
+      "<td>" + r.n + "</td>" +
+      "<td>" + r.method + "</td>" +
+      "<td>" + r.d + "</td>" +
+      "<td>" + r.C.toFixed(2) + "</td>" +
+      '<td class="ratio-cell"><b>' + r.ratio.toFixed(2) + "</b></td>" +
+      "</tr>"
+    ).join("");
+  }
+  const foot = $("tableFoot");
+  if(!rows.length){
+    foot.innerHTML = "";
+  } else {
+    let html = '<span class="tag">已测 ' + rows.length + " 组</span><span>各组比值在 3.0 ~ 3.3 之间波动，都接近 3.14。</span>";
+    foot.innerHTML = html;
+  }
+  // 顶栏统计
+  $("statCount").textContent = rows.length;
+}
+
+/* ================= 交互控制 ================= */
+function resetLab(){
+  S.phase = "idle";
+  S.progress = 0;
+  S.result = null;
+  S.recorded = false;
+  S.trail = [];
+  cancelAnimationFrame(animId);
+  showReadout(false);
+  $("btnMeasure").textContent = "开始测量";
+  $("btnMeasure").classList.remove("ready");
+  drawScene();
+  setStatus(S.method === "roll"
+    ? "选好直径，点击「开始测量」，圆会在尺子上滚动一周。"
+    : "选好直径，点击「开始测量」，绳子会绕圆一周再拉直量长。");
+  syncControls();
+}
+
+function syncControls(){
+  const busy = S.phase === "rolling" || S.phase === "wrapping" || S.phase === "straightening";
+  $("btnMeasure").disabled = busy;
+  $("diaRange").disabled = busy;
+  $("btnRoll").disabled = busy;
+  $("btnWrap").disabled = busy;
+}
+
+function beginMeasure(){
+  S.result = measure(S.d);
+  S.recorded = false;
+  showReadout(false);
+  if(S.method === "roll"){
+    setStatus("圆从起点开始滚动……", true);
+    startAnim("rolling");
+  } else {
+    setStatus("绳子正在绕圆一周……", true);
+    startAnim("wrapping");
+  }
+  syncControls();
+}
+
+function recordRow(){
+  const r = S.result;
+  S.rows.push({ n: S.rows.length + 1, method: methodName(), d: r.d, C: r.C, ratio: r.ratio });
+  S.recorded = true;
+  renderTable();
+  updateCharts();
+  setStatus("已记录第 " + S.rows.length + " 组。换一个直径再测，或看看下面的图表。");
+  $("btnMeasure").textContent = "再来一次";
+  $("btnMeasure").classList.remove("ready");
+}
+
+$("btnMeasure").addEventListener("click", () => {
+  if(S.phase === "idle"){
+    beginMeasure();
+  } else if(S.phase === "done" && !S.recorded){
+    recordRow();
+  } else if(S.phase === "done" && S.recorded){
+    resetLab();
+  }
+});
+
+$("btnReset").addEventListener("click", resetLab);
+
+$("btnRoll").addEventListener("click", () => {
+  if(S.method === "roll") return;
+  S.method = "roll";
+  $("btnRoll").classList.add("active");
+  $("btnWrap").classList.remove("active");
+  $("btnRoll").setAttribute("aria-selected", "true");
+  $("btnWrap").setAttribute("aria-selected", "false");
+  $("methodTagText").textContent = "滚圆法";
+  resetLab();
+});
+$("btnWrap").addEventListener("click", () => {
+  if(S.method === "wrap") return;
+  S.method = "wrap";
+  $("btnWrap").classList.add("active");
+  $("btnRoll").classList.remove("active");
+  $("btnWrap").setAttribute("aria-selected", "true");
+  $("btnRoll").setAttribute("aria-selected", "false");
+  $("methodTagText").textContent = "绕绳法";
+  resetLab();
+});
+
+$("diaRange").addEventListener("input", e => {
+  S.d = parseInt(e.target.value);
+  $("diaVal").textContent = S.d;
+  $("cvHint").textContent = "直径 d = " + S.d + " cm";
+  if(S.phase !== "idle"){
+    resetLab();
+  } else {
+    drawScene();
+  }
+});
+
+$("btnClear").addEventListener("click", () => {
+  S.rows = [];
+  renderTable();
+  updateCharts();
+});
+
+/* ================= ECharts 图表 ================= */
+let scatterChart = null, ratioChart = null;
+const SCATTER_COLOR = "#2E6FD8", REF_COLOR = "#C98A1B", RATIO_COLOR = "#E0603C";
+
+function initCharts(){
+  if(!window.echarts){
+    $("scatterBox").querySelector(".empty-mask").textContent = "图表组件未能加载，请检查网络后刷新页面。";
+    $("ratioBox").querySelector(".empty-mask").textContent = "图表组件未能加载，请检查网络后刷新页面。";
+    return;
+  }
+  scatterChart = echarts.init($("scatterChart"));
+  ratioChart = echarts.init($("ratioChart"));
+
+  scatterChart.setOption({
+    animationDuration: 400,
+    grid: { left: 48, right: 18, top: 38, bottom: 42 },
+    legend: { top: 2, right: 4, itemWidth: 14, itemHeight: 8, textStyle: { fontSize: 11, color: "#5A6B78" } },
+    tooltip: {
+      confine: true,
+      formatter: p => {
+        if(p.seriesName === "测量数据"){
+          return "直径 d = " + p.value[0] + " cm<br>周长 C = " + p.value[1].toFixed(2) + " cm";
+        }
+        return p.seriesName;
+      }
+    },
+    xAxis: {
+      type: "value", name: "直径 d (cm)", nameLocation: "middle", nameGap: 28,
+      min: 0, max: 9, interval: 1,
+      axisLabel: { fontSize: 11, color: "#5A6B78" },
+      nameTextStyle: { fontSize: 12, color: "#5A6B78" },
+      splitLine: { lineStyle: { color: "#EEE4D2" } }
+    },
+    yAxis: {
+      type: "value", name: "周长 C (cm)", nameLocation: "middle", nameGap: 36,
+      min: 0, max: 28, interval: 4,
+      axisLabel: { fontSize: 11, color: "#5A6B78" },
+      nameTextStyle: { fontSize: 12, color: "#5A6B78" },
+      splitLine: { lineStyle: { color: "#EEE4D2" } }
+    },
+    series: [
+      {
+        name: "C = πd 参考线", type: "line",
+        data: [[0, 0], [8, PI_REF * 8]],
+        lineStyle: { type: "dashed", color: REF_COLOR, width: 2 },
+        symbol: "none", silent: true, z: 1,
+        tooltip: { show: false }
+      },
+      {
+        name: "测量数据", type: "scatter",
+        data: [], symbolSize: 12,
+        itemStyle: { color: SCATTER_COLOR }, z: 3
+      }
+    ]
+  });
+
+  ratioChart.setOption({
+    animationDuration: 400,
+    grid: { left: 44, right: 18, top: 42, bottom: 36 },
+    tooltip: {
+      trigger: "axis", confine: true,
+      formatter: p => {
+        const v = p[0];
+        return "第 " + v.axisValue + " 组<br>比值 C ÷ d = " + v.value;
+      }
+    },
+    xAxis: {
+      type: "category", data: [],
+      axisLabel: { fontSize: 11, color: "#5A6B78" },
+      axisLine: { lineStyle: { color: "#C9BCA2" } },
+      splitLine: { show: false }
+    },
+    yAxis: {
+      type: "value", min: 2.9, max: 3.4, interval: 0.1,
+      name: "比值 C ÷ d", nameLocation: "middle", nameGap: 30,
+      nameTextStyle: { fontSize: 12, color: "#5A6B78" },
+      axisLabel: { fontSize: 11, color: "#5A6B78", formatter: v => v.toFixed(1) },
+      splitLine: { lineStyle: { color: "#EEE4D2" } }
+    },
+    series: [{
+      name: "每组比值", type: "line",
+      data: [],
+      symbolSize: 8,
+      lineStyle: { color: RATIO_COLOR, width: 2 },
+      itemStyle: { color: RATIO_COLOR },
+      label: { show: true, position: "top", fontSize: 11, color: "#B84522", formatter: v => v.value.toFixed(2) },
+      markLine: {
+        silent: true, symbol: "none",
+        label: { formatter: "π ≈ 3.1416", position: "insideEndTop", fontSize: 11, color: REF_COLOR },
+        lineStyle: { type: "dashed", color: REF_COLOR, width: 1.6 },
+        data: [{ yAxis: PI_REF }]
+      }
+    }]
+  });
+
+  window.addEventListener("resize", () => {
+    if(scatterChart) scatterChart.resize();
+    if(ratioChart) ratioChart.resize();
+  });
+}
+
+function updateCharts(){
+  if(!scatterChart) return;
+  const rows = S.rows;
+  scatterChart.setOption({ series: [{ name: "测量数据", data: rows.map(r => [r.d, r.C]) }] });
+  $("scatterBox").classList.toggle("has-data", rows.length > 0);
+  ratioChart.setOption({
+    xAxis: { data: rows.map(r => "第" + r.n + "组") },
+    series: [{ name: "每组比值", data: rows.map(r => r.ratio) }]
+  });
+  $("ratioBox").classList.toggle("has-data", rows.length >= 2);
+}
+
+/* ================= 试一试 ================= */
+let tryD = 4;
+function newTry(){
+  const opts = [2, 3, 4, 5, 6, 7, 8];
+  tryD = opts[Math.floor(Math.random() * opts.length)];
+  $("tryD").textContent = tryD;
+  $("tryInput").value = "";
+  $("tryResult").textContent = "";
+  $("tryResult").className = "try-result";
+}
+function checkTry(){
+  const v = parseFloat($("tryInput").value);
+  const ans = Math.round(3.14 * tryD * 100) / 100;
+  const r = $("tryResult");
+  if(isNaN(v)){
+    r.textContent = "先输入你算出的周长，再点「核对」。";
+    r.className = "try-result no";
+    return;
+  }
+  if(Math.abs(v - ans) <= 0.05){
+    r.textContent = "正确！C = 3.14 × " + tryD + " = " + ans.toFixed(2) + " cm。公式用得很熟练！";
+    r.className = "try-result ok";
+  } else {
+    r.textContent = "再算算：C = 3.14 × 直径 = 3.14 × " + tryD + " = ?";
+    r.className = "try-result no";
+  }
+}
+$("btnTryCheck").addEventListener("click", checkTry);
+$("btnTryNew").addEventListener("click", newTry);
+$("tryInput").addEventListener("keydown", e => { if(e.key === "Enter") checkTry(); });
+
+/* ================= 初始化 ================= */
+function init(){
+  drawScene();
+  renderTable();
+  newTry();
+  initCharts();
+  syncControls();
+}
+init();
+</script>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
